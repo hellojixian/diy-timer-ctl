@@ -2,7 +2,7 @@
 #include "src/menu.h"
 #include "src/input.h"
 #include "src/sleep.h"
-#include "src/timer.h"
+#include "src/modules/timer/menu_timer.h"
 
 void setup()
 {

@@ -1,6 +1,5 @@
 #include "input.h"
 #include "menu.h"
-#include "timer.h"
 
 void handleInput()
 {

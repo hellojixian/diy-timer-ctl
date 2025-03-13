@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "menu_setting.h"
 #include "../../menu.h"
 #include "../../display.h"
