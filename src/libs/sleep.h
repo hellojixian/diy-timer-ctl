@@ -3,7 +3,9 @@
 
 #include "hal.h"
 
+bool isSleeping();
 void checkSleep();
 void wakeUp();
 void goSleep();
+void updateSleep();
 #endif // SLEEP_H

@@ -8,8 +8,8 @@
 // 按钮引脚
 #define BTN_OK PD2
 #define BTN_CANCEL PD3
-#define BTN_UP PD6
-#define BTN_DOWN PD7
+#define BTN_LEFT PD7
+#define BTN_RIGHT PD6
 
 // 其他硬件
 #define BUZZER_PIN PD5

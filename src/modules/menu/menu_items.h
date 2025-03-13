@@ -9,11 +9,12 @@ typedef void (*MenuFunction)();
 
 struct MenuItem
 {
-  const char *name;    // **菜单名称（存入 PROGMEM）**
-  const uint8_t *icon; // **图标数据（存入 PROGMEM）**
-  MenuFunction action; // **菜单入口函数**
+    const char *name;    // **菜单名称（存入 PROGMEM）**
+    const uint8_t *icon; // **图标数据（存入 PROGMEM）**
+    MenuFunction action; // **菜单入口函数**
 };
 
+const char timer_name[] PROGMEM = "Timer";
 const uint8_t timer_icon[] PROGMEM = {
     0b00000000, 0b00000000, 0b00000000, 0b00000000,
     0b00000000, 0b01111000, 0b00011110, 0b00000000,
@@ -34,6 +35,7 @@ const uint8_t timer_icon[] PROGMEM = {
     0b00000000, 0b01111000, 0b00011110, 0b00000000,
     0b00000000, 0b00000000, 0b00000000, 0b00000000};
 
+const char info_name[] PROGMEM = "Info";
 const uint8_t info_icon[] PROGMEM = {
     0b00000000, 0b01111000, 0b00000000, 0b00000000,
     0b00000001, 0b11111100, 0b00000000, 0b00000000,
@@ -49,6 +51,7 @@ const uint8_t info_icon[] PROGMEM = {
     0b00000001, 0b10001100, 0b00000000, 0b00000000,
     0b00000000, 0b11111000, 0b00000000, 0b00000000};
 
+const char setting_name[] PROGMEM = "Setting";
 const uint8_t setting_icon[] PROGMEM = {
     0b00000000, 0b00000000, 0b00000000, 0b00000000,
     0b00000000, 0b00000000, 0b00000000, 0b00000000,
@@ -64,8 +67,8 @@ const uint8_t setting_icon[] PROGMEM = {
     0b00000000, 0b00000000, 0b00000000, 0b00000000};
 
 const MenuItem menuItems[] PROGMEM = {
-    {"Timer", timer_icon, nullptr},
-    {"Setting", setting_icon, nullptr},
-    {"Info", info_icon, nullptr}};
+    {timer_name, timer_icon, nullptr},
+    {setting_name, setting_icon, nullptr},
+    {info_name, info_icon, nullptr}};
 
 #endif
