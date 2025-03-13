@@ -1,4 +1,5 @@
 #include "hal.h"
+#include <Arduino.h>
 
 void initHardware()
 {

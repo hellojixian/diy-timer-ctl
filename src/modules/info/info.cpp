@@ -1,6 +1,5 @@
-#include "menu_info.h"
-#include "../../menu.h"
-#include "../../display.h"
+#include "info.h"
+#include "../../libs/display.h"
 
 void infoMenuHandler()
 {

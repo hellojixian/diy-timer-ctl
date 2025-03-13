@@ -1,7 +1,6 @@
 #include <Arduino.h>
-#include "menu_setting.h"
-#include "../../menu.h"
-#include "../../display.h"
+#include "setting.h"
+#include "../../libs/display.h"
 
 bool isMuted = false;
 int sleepTimeout = 30;

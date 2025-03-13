@@ -5,5 +5,5 @@
 
 void checkSleep();
 void wakeUp();
-
+void goSleep();
 #endif // SLEEP_H
