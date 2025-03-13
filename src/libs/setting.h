@@ -7,7 +7,7 @@
 bool getBuzzerState();
 void setBuzzerState(bool enabled);
 
-int getSleepTimeout();
-void setSleepTimeout(int seconds);
+unsigned int getSleepTimeout();
+void setSleepTimeout(unsigned int seconds);
 
 #endif

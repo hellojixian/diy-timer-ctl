@@ -10,6 +10,7 @@ enum class SystemState
   BUSY  // **繁忙**
 };
 
+void initSleepManager();
 bool isSleeping();
 void wakeUp();
 void goSleep();

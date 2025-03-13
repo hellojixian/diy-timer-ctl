@@ -3,7 +3,7 @@
 #include "../../libs/display.h"
 
 bool isMuted = false;
-int sleepTimeout = 30;
+// int sleepTimeout = 30;
 
 void settingMenuHandler()
 {
@@ -18,8 +18,8 @@ void toggleMute()
 
 void changeSleepTimeout()
 {
-  sleepTimeout = (sleepTimeout == 10) ? 30 : (sleepTimeout == 30) ? 60
-                                         : (sleepTimeout == 60)   ? 0
-                                                                  : 10;
-  drawText(10, 40, sleepTimeout == 0 ? "Sleep: Off" : String(sleepTimeout).c_str());
+  // sleepTimeout = (sleepTimeout == 10) ? 30 : (sleepTimeout == 30) ? 60
+  //                                        : (sleepTimeout == 60)   ? 0
+  //                                                                 : 10;
+  // drawText(10, 40, sleepTimeout == 0 ? "Sleep: Off" : String(sleepTimeout).c_str());
 }

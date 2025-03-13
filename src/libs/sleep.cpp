@@ -1,10 +1,12 @@
 #include "sleep.h"
 #include "display.h"
+#include "setting.h"
 #include <avr/sleep.h>
 #include "../modules/menu/menu.h"
 
 static SystemState currentState = SystemState::IDLE; // **默认状态为繁忙**
 volatile unsigned long lastIdleTime = 0;             // **上次进入空闲状态的时间**
+unsigned int sleepTimeout = 0;
 
 // **设置系统状态**
 void setSystemState(SystemState state)
@@ -19,6 +21,16 @@ void setSystemState(SystemState state)
 bool _isSleeping = false;
 bool _isWakingUp = false;
 
+void initSleepManager()
+{
+  // **配置 PCINT 作为唤醒源**
+  cli();
+  PCICR |= (1 << PCIE2); // **使能 PCINT2（PD2-PD7）**
+  sei();
+
+  sleepTimeout = getSleepTimeout();
+}
+
 bool isSleeping()
 {
   return _isSleeping;
@@ -32,11 +44,6 @@ void goSleep()
   delay(500);
   display.ssd1306_command(SSD1306_DISPLAYOFF);
   _isSleeping = true;
-
-  // **配置 PCINT 作为唤醒源**
-  cli();
-  PCICR |= (1 << PCIE2); // **使能 PCINT2（PD2-PD7）**
-  sei();
 
   // **设置深度睡眠模式**
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -71,7 +78,7 @@ void updateSleep()
   }
   else
   {
-    if (currentState == SystemState::IDLE && (ms - lastIdleTime > 10000))
+    if (sleepTimeout != 0 && currentState == SystemState::IDLE && (ms - lastIdleTime > sleepTimeout))
     {
       goSleep();
     }
