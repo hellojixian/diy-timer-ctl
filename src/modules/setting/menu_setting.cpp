@@ -1,4 +1,5 @@
 #include "menu_setting.h"
+#include "../../menu.h"
 #include "../../display.h"
 
 bool isMuted = false;

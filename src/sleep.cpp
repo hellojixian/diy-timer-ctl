@@ -1,4 +1,6 @@
 #include "sleep.h"
+#include "display.h"
+#include "menu.h"
 #include <avr/sleep.h>
 
 bool isSleeping = false;

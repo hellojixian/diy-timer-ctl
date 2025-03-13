@@ -3,14 +3,21 @@
 
 #include <U8g2lib.h>
 #include <LCDMenuLib2.h>
-#include "modules/timer/menu_timer.h"
-#include "modules/setting/menu_setting.h"
-#include "modules/info/menu_info.h"
 
+// 外部声明 OLED 屏幕对象
 extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
 extern LCDMenuLib2 menu;
 
+// 菜单初始化
 void menuInit();
+
+// 菜单绘制
 void drawMenu();
+
+// 按键操作方法
+void menuSelect();
+void cancelAction();
+void menuNext();
+void menuPrev();
 
 #endif // MENU_H

@@ -1,5 +1,6 @@
 #include "menu_timer.h"
 #include "../../display.h"
+#include "../../menu.h"
 #include "../../hal.h"
 
 int countdownTime = 60;
