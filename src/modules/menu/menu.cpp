@@ -25,6 +25,7 @@ void initMenu()
 {
   bindButtonHandlers(btnOKHandler, btnCancelHander, btnLeftHandler, btnRightHandler);
   drawMenu();
+  setSystemState(SystemState::IDLE);
 }
 
 void drawMenu()
@@ -68,12 +69,14 @@ void updateMenu()
 
 void btnLeftHandler()
 {
+  setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + menuCount - 1) % menuCount; // **循环到上一个菜单**
   menuNeedsRedraw = true;
 }
 
 void btnRightHandler()
 {
+  setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + 1) % menuCount; // **循环到下一个菜单**
   menuNeedsRedraw = true;
 }
@@ -86,6 +89,7 @@ void btnOKHandler()
 
 void btnCancelHander()
 {
+  setSystemState(SystemState::IDLE);
   menuNeedsRedraw = false;
   needToGoSleep = true;
 }

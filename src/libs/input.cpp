@@ -12,7 +12,7 @@ ButtonCallback onLeftPress = nullptr;
 ButtonCallback onRightPress = nullptr;
 
 // **防抖时间（单位：毫秒）**
-#define DEBOUNCE_DELAY 100
+#define DEBOUNCE_DELAY 300
 
 // **存储按钮的上次触发时间**
 volatile uint32_t lastDebounceTime_OK = 0;

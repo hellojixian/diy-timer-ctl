@@ -3,20 +3,25 @@
 #include <avr/sleep.h>
 #include "../modules/menu/menu.h"
 
+static SystemState currentState = SystemState::IDLE; // **默认状态为繁忙**
+volatile unsigned long lastIdleTime = 0;             // **上次进入空闲状态的时间**
+
+// **设置系统状态**
+void setSystemState(SystemState state)
+{
+  currentState = state;
+  if (state == SystemState::IDLE)
+  {
+    lastIdleTime = millis(); // **记录空闲开始时间**
+  }
+}
+
 bool _isSleeping = false;
 bool _isWakingUp = false;
 
 bool isSleeping()
 {
   return _isSleeping;
-}
-
-void checkSleep()
-{
-  if (!_isSleeping && millis() > 30000)
-  { // 30秒无操作
-    goSleep();
-  }
 }
 
 void goSleep()
@@ -50,16 +55,25 @@ void wakeUp()
   {
     _isSleeping = false;
     _isWakingUp = true;
-    // drawMenu();
   }
 }
 
 void updateSleep()
 {
+  unsigned long ms = millis() + 100;
   if (_isWakingUp)
   {
     _isWakingUp = false;
+    clearScreen();
     display.ssd1306_command(SSD1306_DISPLAYON);
+    lastIdleTime = millis();
     drawMenu();
+  }
+  else
+  {
+    if (currentState == SystemState::IDLE && (ms - lastIdleTime > 10000))
+    {
+      goSleep();
+    }
   }
 }

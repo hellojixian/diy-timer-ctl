@@ -12,3 +12,14 @@ bool getBuzzerState()
   uint8_t storedValue = EEPROM.read(EEPROM_BUZZER_ADDR); // **从 EEPROM 读取值**
   return storedValue != 0;                               // **返回存储的值（1 = 开启，0 = 关闭）**
 }
+
+void setSleepTimeout(int seconds)
+{
+  EEPROM.write(EEPROM_SLEEP_ADDR, seconds);
+}
+
+int getSleepTimeout()
+{
+  uint8_t storedValue = EEPROM.read(EEPROM_SLEEP_ADDR); // **从 EEPROM 读取值**
+  return storedValue;
+}
