@@ -24,6 +24,15 @@ void drawText(int x, int y, const char *text)
   display.display();
 }
 
+void drawNavBar(const char *name)
+{
+  char buffer[10]; // 定义缓冲区来读取 PROGMEM 字符串
+  strcpy_P(buffer, PSTR("> "));
+  strcat_P(buffer, name); // 在运行时拼接字符串
+  drawText(0, 0, buffer);
+  display.drawLine(0, 12, SCREEN_WIDTH, 12, SSD1306_WHITE);
+}
+
 void clearScreen()
 {
   display.clearDisplay();

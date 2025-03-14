@@ -53,7 +53,8 @@ void bindButtonHandlers(ButtonCallback okHandler, ButtonCallback cancelHandler, 
 void handleInput()
 {
   uint32_t currentTime = millis();
-
+  // Serial.print("handleInput: ");
+  // Serial.println(currentTime);
   if (buttonPressed_Left && (currentTime - lastDebounceTime_Left > DEBOUNCE_DELAY))
   {
     buttonPressed_Left = false;

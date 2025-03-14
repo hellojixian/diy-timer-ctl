@@ -66,6 +66,6 @@ const uint8_t setting_icon[] PROGMEM = {
 const MenuItem menuItems[] PROGMEM = {
     {timer_name, timer_icon, nullptr},
     {setting_name, setting_icon, nullptr},
-    {info_name, info_icon, &initInfoModule}};
+    {info_name, info_icon, initInfoModule}};
 
 #endif

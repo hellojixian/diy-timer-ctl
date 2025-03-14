@@ -7,8 +7,7 @@
 #include <avr/pgmspace.h>
 
 extern Adafruit_SSD1306 display;
-void goBack();
-void drawUI();
+void drawInfoUI();
 
 // 将字符串存储在 PROGMEM
 const char info_diy_timer[] PROGMEM = " DIY Timer Controller";
@@ -18,20 +17,19 @@ const char info_release[] PROGMEM = " Release: Mar, 2025";
 
 void initInfoModule()
 {
-  bindButtonHandlers(goBack, goBack, nullptr, nullptr);
-  drawUI();
+  bindButtonHandlers(&initMenu, &initMenu, nullptr, nullptr);
+  drawInfoUI();
   setSystemState(SystemState::IDLE);
+  Serial.println("initInfoModule");
 }
 
-void drawUI()
+void drawInfoUI()
 {
   clearScreen();
   char buffer[30]; // 定义缓冲区来读取 PROGMEM 字符串
 
-  strcpy_P(buffer, PSTR("> "));
-  strcat_P(buffer, info_name); // 在运行时拼接字符串
-  drawText(0, 0, buffer);
-  display.drawLine(0, 12, SCREEN_WIDTH, 12, SSD1306_WHITE);
+  drawNavBar(info_name);
+
   int margin_top = 8;
   int line_height = 11;
 
@@ -46,9 +44,5 @@ void drawUI()
 
   strcpy_P(buffer, info_release);
   drawText(0, margin_top + line_height * 4, buffer);
-}
-
-void goBack()
-{
-  initMenu();
+  display.display();
 }

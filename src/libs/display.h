@@ -9,6 +9,7 @@ extern Adafruit_SSD1306 display;
 
 void initDisplay();
 void drawText(int x, int y, const char *text);
+void drawNavBar(const char *name);
 void clearScreen();
 
 #endif

@@ -1,8 +1,6 @@
 #ifndef MENU_SETTING_H
 #define MENU_SETTING_H
 
-void settingMenuHandler();
-void toggleMute();
-void changeSleepTimeout();
+void initSettingModule();
 
 #endif // MENU_SETTING_H
