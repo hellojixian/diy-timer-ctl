@@ -15,9 +15,9 @@ void initDisplay()
   display.display();
 }
 
-void drawText(int x, int y, const char *text)
+void drawText(int x, int y, const char *text, int size = 1)
 {
-  display.setTextSize(1);
+  display.setTextSize(size);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(x, y);
   display.print(text);
@@ -26,7 +26,7 @@ void drawText(int x, int y, const char *text)
 
 void drawNavBar(const char *name)
 {
-  char buffer[10]; // 定义缓冲区来读取 PROGMEM 字符串
+  char buffer[30]; // 定义缓冲区来读取 PROGMEM 字符串
   strcpy_P(buffer, PSTR("> "));
   strcat_P(buffer, name); // 在运行时拼接字符串
   drawText(0, 0, buffer);

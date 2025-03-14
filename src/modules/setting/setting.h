@@ -19,7 +19,7 @@ struct SettingItem
 
 const SettingItem settings[] PROGMEM = {
     {setting_trigger_interval, displayTriggerIntervalValue, settingTriggerIntervalValue},
-    {setting_sleep_timeout, displaySleepTimeoutlValue, settingSleepTimeoutlValue},
+    {setting_sleep_timeout, displaySleepTimeoutValue, settingSleepTimeoutValue},
     {setting_buzzer, displayBuzzerValue, settingBuzzerValue}};
 
 void initSettingModule();

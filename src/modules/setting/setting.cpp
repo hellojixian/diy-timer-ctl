@@ -9,7 +9,6 @@
 const uint8_t settingsCount = sizeof(settings) / sizeof(SettingItem);
 uint8_t currentSettingIndex = 0;
 
-void goBack();
 void goSetting();
 void prevSettingOption();
 void nextSettingOption();
@@ -17,7 +16,7 @@ void drawSettingUI();
 
 void initSettingModule()
 {
-  bindButtonHandlers(&initMenu, goSetting, prevSettingOption, nextSettingOption);
+  bindButtonHandlers(goSetting, &initMenu, prevSettingOption, nextSettingOption);
   drawSettingUI();
   setSystemState(SystemState::IDLE);
 }
@@ -25,5 +24,26 @@ void initSettingModule()
 void drawSettingUI()
 {
   clearScreen();
+  drawNavBar(setting_name);
   drawBottomMenu(currentSettingIndex, settingsCount);
+  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].displayValue);
+  action();
+}
+
+void goSetting()
+{
+  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].displayValue);
+  action();
+}
+
+void prevSettingOption()
+{
+  currentSettingIndex = (currentSettingIndex + settingsCount - 1) % settingsCount;
+  drawSettingUI();
+}
+
+void nextSettingOption()
+{
+  currentSettingIndex = (currentSettingIndex + 1) % settingsCount;
+  drawSettingUI();
 }

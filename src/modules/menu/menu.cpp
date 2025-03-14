@@ -64,16 +64,8 @@ void menuRightHandler()
 
 void menuOKHandler()
 {
-  MenuItem item;
-  memcpy_P(&item, &menuItems[currentMenuIndex], sizeof(MenuItem));
-
-  // 2. 读取函数指针
-  if (item.action)
-  {
-    MenuFunction action = (MenuFunction)pgm_read_ptr(&item.action);
-    // action(); // **执行菜单函数**
-    initInfoModule();
-  }
+  MenuFunction action = (MenuFunction)pgm_read_ptr(&menuItems[currentMenuIndex].action);
+  action();
 }
 
 void menuCancelHandler()

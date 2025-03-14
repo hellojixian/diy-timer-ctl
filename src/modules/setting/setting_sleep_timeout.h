@@ -3,8 +3,8 @@
 
 #include <avr/pgmspace.h>
 
-const char setting_trigger_interval[] PROGMEM = "Triger Interval (sec)";
-void displayTriggerIntervalValue();
-void settingTriggerIntervalValue();
+const char setting_sleep_timeout[] PROGMEM = "Sleep Timeout (sec)";
+void displaySleepTimeoutValue();
+void settingSleepTimeoutValue();
 
 #endif // SETTING_SLEEP_TIMEOUT_H

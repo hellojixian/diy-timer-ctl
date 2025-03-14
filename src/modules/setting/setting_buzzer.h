@@ -3,6 +3,9 @@
 #include <avr/pgmspace.h>
 
 const char setting_buzzer[] PROGMEM = "Buzzer";
+const char setting_buzzer_on[] PROGMEM = "ON";
+const char setting_buzzer_off[] PROGMEM = "OFF";
+
 void displayBuzzerValue();
 void settingBuzzerValue();
 
