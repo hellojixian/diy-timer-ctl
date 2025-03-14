@@ -40,7 +40,7 @@ void drawMenu()
   }
   display.fillRect(currentMenuIndex * menu_width + 1, SCREEN_HEIGHT - menu_item_height, menu_width - 2, SCREEN_HEIGHT - menu_item_height, SSD1306_WHITE);
   const uint8_t *icon = (const uint8_t *)pgm_read_ptr(&menuItems[currentMenuIndex].icon); // 读取图标
-  display.drawBitmap(48, 6, icon, 32, 32, SSD1306_WHITE);
+  display.drawBitmap(44, 5, icon, 40, 40, SSD1306_WHITE);
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   char nameBuffer[20];
@@ -48,7 +48,7 @@ void drawMenu()
   // **计算文本宽度**
   int16_t textWidth = strlen(nameBuffer) * CHAR_WIDTH;
   int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
-  display.setCursor(x, 42);                   // **设置居中 X 坐标**
+  display.setCursor(x, 48);                   // **设置居中 X 坐标**
   display.print(nameBuffer);
   display.display();
 }

@@ -39,7 +39,7 @@ bool isSleeping()
 void goSleep()
 {
   clearScreen();
-  drawText(36, 18, "Sleeping...");
+  drawText(36, 26, "Sleeping...");
   display.display();
   delay(500);
   display.ssd1306_command(SSD1306_DISPLAYOFF);
@@ -78,7 +78,7 @@ void updateSleep()
   }
   else
   {
-    if (sleepTimeout != 0 && currentState == SystemState::IDLE && (ms - lastIdleTime > sleepTimeout))
+    if (sleepTimeout > 0 && sleepTimeout != 0xff && currentState == SystemState::IDLE && (ms - lastIdleTime > sleepTimeout * 1000))
     {
       goSleep();
     }
