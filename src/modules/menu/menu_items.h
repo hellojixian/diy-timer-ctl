@@ -3,6 +3,7 @@
 
 #include <avr/pgmspace.h>
 #include <stdint.h>
+#include "../../modules/info/info.h"
 
 // **菜单入口函数指针类型**
 typedef void (*MenuFunction)();
@@ -65,6 +66,6 @@ const uint8_t setting_icon[] PROGMEM = {
 const MenuItem menuItems[] PROGMEM = {
     {timer_name, timer_icon, nullptr},
     {setting_name, setting_icon, nullptr},
-    {info_name, info_icon, nullptr}};
+    {info_name, info_icon, &initInfoModule}};
 
 #endif

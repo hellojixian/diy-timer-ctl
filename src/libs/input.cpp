@@ -20,11 +20,11 @@ volatile uint32_t lastDebounceTime_Cancel = 0;
 volatile uint32_t lastDebounceTime_Left = 0;
 volatile uint32_t lastDebounceTime_Right = 0;
 
-// **存储按钮的上次状态（0 = 未按下, 1 = 按下）**
-volatile bool lastButtonState_OK = false;
-volatile bool lastButtonState_Cancel = false;
-volatile bool lastButtonState_Left = false;
-volatile bool lastButtonState_Right = false;
+// **存储按钮的标记状态（是否有新的按键事件）**
+volatile bool buttonPressed_OK = false;
+volatile bool buttonPressed_Cancel = false;
+volatile bool buttonPressed_Left = false;
+volatile bool buttonPressed_Right = false;
 
 // **初始化 PCINT 使能**
 void initInput()
@@ -50,80 +50,87 @@ void bindButtonHandlers(ButtonCallback okHandler, ButtonCallback cancelHandler, 
   onRightPress = rightHandler;
 }
 
-// **按钮中断处理（带防抖 & 仅响应按下）**
+void handleInput()
+{
+  uint32_t currentTime = millis();
+
+  if (buttonPressed_Left && (currentTime - lastDebounceTime_Left > DEBOUNCE_DELAY))
+  {
+    buttonPressed_Left = false;
+    playButtonTone();
+    if (onLeftPress)
+      onLeftPress();
+  }
+
+  if (buttonPressed_Right && (currentTime - lastDebounceTime_Right > DEBOUNCE_DELAY))
+  {
+    buttonPressed_Right = false;
+    playButtonTone();
+    if (onRightPress)
+      onRightPress();
+  }
+
+  if (buttonPressed_OK && (currentTime - lastDebounceTime_OK > DEBOUNCE_DELAY))
+  {
+    buttonPressed_OK = false;
+    playOKTone();
+    if (onOkPress)
+      onOkPress();
+  }
+
+  if (buttonPressed_Cancel && (currentTime - lastDebounceTime_Cancel > DEBOUNCE_DELAY))
+  {
+    buttonPressed_Cancel = false;
+    playCancelTone();
+    if (onCancelPress)
+      onCancelPress();
+  }
+}
+
+// **按钮中断处理（只做标记，不直接调用事件）**
 ISR(PCINT2_vect)
 {
-  uint32_t currentTime = millis(); // **获取当前时间**
   if (isSleeping())
   {
     wakeUp();
     return;
   }
-  // **处理 Left（UP）按键**
+
+  uint32_t currentTime = millis();
+
   if (bit_is_clear(PIND, BTN_LEFT))
   {
-    if (!lastButtonState_Left && (currentTime - lastDebounceTime_Left > DEBOUNCE_DELAY))
+    if (!buttonPressed_Left)
     {
       lastDebounceTime_Left = currentTime;
-      lastButtonState_Left = true;
-      playButtonTone();
-      if (onLeftPress)
-        onLeftPress();
+      buttonPressed_Left = true;
     }
   }
-  else
-  {
-    lastButtonState_Left = false;
-  }
 
-  // **处理 Right（DOWN）按键**
   if (bit_is_clear(PIND, BTN_RIGHT))
   {
-    if (!lastButtonState_Right && (currentTime - lastDebounceTime_Right > DEBOUNCE_DELAY))
+    if (!buttonPressed_Right)
     {
       lastDebounceTime_Right = currentTime;
-      lastButtonState_Right = true;
-      playButtonTone();
-      if (onRightPress)
-        onRightPress();
+      buttonPressed_Right = true;
     }
   }
-  else
-  {
-    lastButtonState_Right = false;
-  }
 
-  // **处理 OK 按键**
   if (bit_is_clear(PIND, BTN_OK))
   {
-    if (!lastButtonState_OK && (currentTime - lastDebounceTime_OK > DEBOUNCE_DELAY))
+    if (!buttonPressed_OK)
     {
       lastDebounceTime_OK = currentTime;
-      lastButtonState_OK = true;
-      playOKTone();
-      if (onOkPress)
-        onOkPress();
+      buttonPressed_OK = true;
     }
-  }
-  else
-  {
-    lastButtonState_OK = false;
   }
 
-  // **处理 Cancel 按键**
   if (bit_is_clear(PIND, BTN_CANCEL))
   {
-    if (!lastButtonState_Cancel && (currentTime - lastDebounceTime_Cancel > DEBOUNCE_DELAY))
+    if (!buttonPressed_Cancel)
     {
       lastDebounceTime_Cancel = currentTime;
-      lastButtonState_Cancel = true;
-      playCancelTone();
-      if (onCancelPress)
-        onCancelPress();
+      buttonPressed_Cancel = true;
     }
-  }
-  else
-  {
-    lastButtonState_Cancel = false;
   }
 }

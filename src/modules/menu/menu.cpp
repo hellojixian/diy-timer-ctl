@@ -13,17 +13,14 @@ extern Adafruit_SSD1306 display;
 // **菜单项数量**
 constexpr uint8_t menuCount = sizeof(menuItems) / sizeof(menuItems[0]);
 
-volatile bool menuNeedsRedraw = false;
-volatile bool needToGoSleep = false;
-
-void btnOKHandler();
-void btnRightHandler();
-void btnLeftHandler();
-void btnCancelHander();
+void menuOKHandler();
+void menuRightHandler();
+void menuLeftHandler();
+void menuCancelHandler();
 
 void initMenu()
 {
-  bindButtonHandlers(btnOKHandler, btnCancelHander, btnLeftHandler, btnRightHandler);
+  bindButtonHandlers(menuOKHandler, menuCancelHandler, menuLeftHandler, menuRightHandler);
   drawMenu();
   setSystemState(SystemState::IDLE);
 }
@@ -40,7 +37,7 @@ void drawMenu()
   }
   display.fillRect(currentMenuIndex * menu_width + 1, SCREEN_HEIGHT - menu_item_height, menu_width - 2, SCREEN_HEIGHT - menu_item_height, SSD1306_WHITE);
   const uint8_t *icon = (const uint8_t *)pgm_read_ptr(&menuItems[currentMenuIndex].icon); // 读取图标
-  display.drawBitmap(44, 5, icon, 40, 40, SSD1306_WHITE);
+  display.drawBitmap(44, 2, icon, 40, 40, SSD1306_WHITE);
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   char nameBuffer[20];
@@ -48,48 +45,33 @@ void drawMenu()
   // **计算文本宽度**
   int16_t textWidth = strlen(nameBuffer) * CHAR_WIDTH;
   int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
-  display.setCursor(x, 48);                   // **设置居中 X 坐标**
+  display.setCursor(x, 46);                   // **设置居中 X 坐标**
   display.print(nameBuffer);
   display.display();
 }
 
-void updateMenu()
-{
-  if (menuNeedsRedraw)
-  {
-    menuNeedsRedraw = false;
-    drawMenu();
-  }
-  else if (needToGoSleep)
-  {
-    needToGoSleep = false;
-    goSleep();
-  }
-}
-
-void btnLeftHandler()
+void menuLeftHandler()
 {
   setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + menuCount - 1) % menuCount; // **循环到上一个菜单**
-  menuNeedsRedraw = true;
+  drawMenu();
 }
 
-void btnRightHandler()
+void menuRightHandler()
 {
   setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + 1) % menuCount; // **循环到下一个菜单**
-  menuNeedsRedraw = true;
+  drawMenu();
 }
 
-void btnOKHandler()
+void menuOKHandler()
 {
   MenuFunction action = (MenuFunction)pgm_read_ptr(&menuItems[currentMenuIndex].action);
   action(); // **执行菜单函数**
 }
 
-void btnCancelHander()
+void menuCancelHandler()
 {
   setSystemState(SystemState::IDLE);
-  menuNeedsRedraw = false;
-  needToGoSleep = true;
+  goSleep();
 }

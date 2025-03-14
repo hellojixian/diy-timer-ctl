@@ -13,11 +13,11 @@ void setup()
   initDisplay();
   initMenu();
   initSleepManager();
-  checkMemory(); // **初始化后再检查**
+  // checkMemory(); // **初始化后再检查**
 }
 
 void loop()
 {
-  updateMenu();
+  handleInput();
   updateSleep();
 }
