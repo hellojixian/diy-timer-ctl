@@ -28,3 +28,16 @@ unsigned int getSleepTimeout()
   uint8_t storedValue = EEPROM.read(EEPROM_SLEEP_ADDR); // **从 EEPROM 读取值**
   return storedValue;
 }
+
+void setTriggerInterval(unsigned int seconds)
+{
+
+  EEPROM.write(EEPROM_TRIGGER_INTERVAL_ADDR, seconds);
+  sleepTimeout = seconds;
+}
+
+unsigned int getTriggerInterval()
+{
+  uint8_t storedValue = EEPROM.read(EEPROM_TRIGGER_INTERVAL_ADDR); // **从 EEPROM 读取值**
+  return storedValue;
+}

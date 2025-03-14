@@ -31,6 +31,19 @@ void drawNavBar(const char *name)
   strcat_P(buffer, name); // 在运行时拼接字符串
   drawText(0, 0, buffer);
   display.drawLine(0, 12, SCREEN_WIDTH, 12, SSD1306_WHITE);
+  display.display();
+}
+
+void drawBottomMenu(int currentIndex, int totalItems)
+{
+  int menu_width = SCREEN_WIDTH / totalItems;
+  int menu_item_height = 3;
+  for (int i = 0; i < totalItems; i++)
+  {
+    display.drawLine(i * menu_width + 1, SCREEN_HEIGHT - 2, i * menu_width + menu_width - 2, SCREEN_HEIGHT - 2, SSD1306_WHITE);
+  }
+  display.fillRect(currentIndex * menu_width + 1, SCREEN_HEIGHT - menu_item_height, menu_width - 2, SCREEN_HEIGHT - menu_item_height, SSD1306_WHITE);
+  display.display();
 }
 
 void clearScreen()

@@ -3,7 +3,11 @@
 #include "../../libs/display.h"
 #include "../../libs/input.h"
 #include "../../libs/sleep.h"
+#include "../../libs/setting.h"
 #include "../menu/menu.h"
+
+const uint8_t settingsCount = sizeof(settings) / sizeof(SettingItem);
+uint8_t currentSettingIndex = 0;
 
 void goBack();
 void goSetting();
@@ -21,4 +25,5 @@ void initSettingModule()
 void drawSettingUI()
 {
   clearScreen();
+  drawBottomMenu(currentSettingIndex, settingsCount);
 }

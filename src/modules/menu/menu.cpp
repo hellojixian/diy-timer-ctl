@@ -25,17 +25,8 @@ void initMenu()
   setSystemState(SystemState::IDLE);
 }
 
-void drawMenu()
+void drawMenuItem()
 {
-  clearScreen();
-
-  int menu_width = SCREEN_WIDTH / menuCount;
-  int menu_item_height = 3;
-  for (int i = 0; i < menuCount; i++)
-  {
-    display.drawLine(i * menu_width + 1, SCREEN_HEIGHT - 2, i * menu_width + menu_width - 2, SCREEN_HEIGHT - 2, SSD1306_WHITE);
-  }
-  display.fillRect(currentMenuIndex * menu_width + 1, SCREEN_HEIGHT - menu_item_height, menu_width - 2, SCREEN_HEIGHT - menu_item_height, SSD1306_WHITE);
   const uint8_t *icon = (const uint8_t *)pgm_read_ptr(&menuItems[currentMenuIndex].icon); // 读取图标
   display.drawBitmap(44, 2, icon, 40, 40, SSD1306_WHITE);
   display.setTextSize(1);
@@ -48,6 +39,13 @@ void drawMenu()
   display.setCursor(x, 46);                   // **设置居中 X 坐标**
   display.print(nameBuffer);
   display.display();
+}
+
+void drawMenu()
+{
+  clearScreen();
+  drawBottomMenu(currentMenuIndex, menuCount);
+  drawMenuItem();
 }
 
 void menuLeftHandler()

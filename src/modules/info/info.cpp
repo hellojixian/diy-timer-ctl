@@ -20,7 +20,6 @@ void initInfoModule()
   bindButtonHandlers(&initMenu, &initMenu, nullptr, nullptr);
   drawInfoUI();
   setSystemState(SystemState::IDLE);
-  Serial.println("initInfoModule");
 }
 
 void drawInfoUI()
