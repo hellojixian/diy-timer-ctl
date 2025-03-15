@@ -3,6 +3,8 @@
 
 #include <avr/pgmspace.h>
 
+#define TRIGGER_MINIMAL_SECONDS 30
+
 const char timer_counting_name[] PROGMEM = "Counting: %02u:00";
 const char timer_minute_format[] PROGMEM = "%02u:00";
 const char timer_second_format[] PROGMEM = "%02u:%02u";

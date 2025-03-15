@@ -9,4 +9,5 @@ void initHardware()
   pinMode(BTN_LEFT, INPUT_PULLUP);
   pinMode(BTN_RIGHT, INPUT_PULLUP);
   pinMode(CTL_OUTPUT_PIN, OUTPUT);
+  digitalWrite(CTL_OUTPUT_PIN, LOW);
 }

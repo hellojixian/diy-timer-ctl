@@ -13,7 +13,7 @@
 
 // 其他硬件
 #define BUZZER_PIN PD5
-#define CTL_OUTPUT_PIN PB2
+#define CTL_OUTPUT_PIN 10 // PB8
 
 void initHardware();
 #endif

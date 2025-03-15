@@ -17,6 +17,8 @@ void setup()
   initMenu();
   initSleepManager();
   checkMemory();
+  Serial.println(F("System started"));
+  // digitalWrite(CTL_OUTPUT_PIN, HIGH);
 }
 
 void loop()

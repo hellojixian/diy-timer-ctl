@@ -74,7 +74,7 @@ void updateTimer()
     drawTimerCountingUI();
 
     // **检查是否需要触发事件**
-    if (timerCountSeconds % timerTriggerInterval == 0)
+    if (timerCountSeconds % timerTriggerInterval == 0 && timerCountSeconds >= TRIGGER_MINIMAL_SECONDS)
     {
       triggerSignal(); // 可选，播放提示音
     }
@@ -160,9 +160,10 @@ void onTimerCountingCompleted()
 
 void triggerSignal()
 {
-  digitalWrite(CTL_OUTPUT_PIN, LOW);
-  playTriggerTone();
   digitalWrite(CTL_OUTPUT_PIN, HIGH);
+  playTriggerTone();
+  delay(100);
+  digitalWrite(CTL_OUTPUT_PIN, LOW);
 }
 
 void timerCountingSettingIncrement()
