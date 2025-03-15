@@ -107,7 +107,7 @@ void drawTimerCountingUI()
   display.fillRect(0, SCREEN_HEIGHT - progrssHeight, progress, progrssHeight, SSD1306_WHITE);
   display.display();
 
-  char buffer[10];                                                        // 存储格式化的时间
+  char buffer[20];                                                        // 存储格式化的时间
   sprintf(buffer, "%02u:%02u", elapsedSeconds / 60, elapsedSeconds % 60); // 02u 保持两位数格式
   display.fillRect(34, 32, 60, 24, SSD1306_BLACK);
   display.display();
