@@ -1,51 +1,81 @@
 #include "timer.h"
+#include "timer_counting.h"
 #include "../../libs/display.h"
-#include "../../libs/hal.h"
+#include "../../libs/sleep.h"
+#include "../../libs/input.h"
+#include "../../libs/setting.h"
+#include "../menu/menu.h"
 
-// int countdownTime = 60;
-// unsigned long countdownStart = 0;
-// bool counting = false;
+void startTimer();
+void timerSettingIncrement();
+void timerSettingDecrement();
+void displayTimerSettingValue();
+void drawTimerUI();
 
-// void startCountdown()
-// {
-//   counting = true;
-//   countdownStart = millis();
-// }
+unsigned int currentTimerSetting = 0;
 
-// void updateCountdown()
-// {
-//   if (!counting)
-//     return;
+void initTimerModule()
+{
+  bindButtonHandlers(&startTimer, &initMenu, &timerSettingDecrement, &timerSettingIncrement);
+  currentTimerSetting = getTimerSetting();
+  drawTimerUI();
+  setSystemState(SystemState::IDLE);
+}
 
-//   unsigned long elapsed = (millis() - countdownStart) / 1000;
-//   int remaining = countdownTime - elapsed;
-//   if (remaining <= 0)
-//   {
-//     counting = false;
-//     digitalWrite(BUZZER_PIN, HIGH);
-//     delay(1000);
-//     digitalWrite(BUZZER_PIN, LOW);
-//     drawMenu();
-//   }
-//   else
-//   {
-//     clearScreen();
-//     drawText(40, 30, String(remaining).c_str());
-//   }
-// }
+void drawTimerUI()
+{
+  clearScreen();
+  drawNavBar(timer_name);
+  char buffer[20];
+  strcpy_P(buffer, setting_timer);
+  drawText(0, 16, buffer);
+  display.display();
+  displayTimerSettingValue();
+}
 
-// bool isCountingDown()
-// {
-//   return counting;
-// }
+void displayTimerSettingValue()
+{
+  display.fillRect(24, 28, SCREEN_WIDTH - 24 * 2, 23, SSD1306_WHITE);
+  drawAdjustArrows(32);
 
-// void cancelCountdown()
-// {
-//   counting = false;
-//   drawMenu();
-// }
+  char buffer[20];
+  sprintf(buffer, "%03u", currentTimerSetting);
+  display.setTextSize(2);
+  display.setTextColor(SSD1306_BLACK);
+  display.setCursor(alignCenter(buffer, 2), 32); // **设置居中 X 坐标**
+  display.print(buffer);
+  display.display();
 
-// void timerMenuHandler()
-// {
-//   startCountdown();
-// }
+  int progress_width = map(currentTimerSetting, TIMER_SETTING_MIN, TIMER_SETTING_MAX - 1, 0, SCREEN_WIDTH);
+  display.fillRect(0, SCREEN_HEIGHT - 4, SCREEN_WIDTH, 4, SSD1306_BLACK);
+  display.drawLine(0, SCREEN_HEIGHT - 2, SCREEN_WIDTH, SCREEN_HEIGHT - 2, SSD1306_WHITE);
+  display.fillRect(0, SCREEN_HEIGHT - 4, progress_width - 2, 4, SSD1306_WHITE);
+  display.display();
+}
+
+void timerSettingIncrement()
+{
+  if (currentTimerSetting < TIMER_SETTING_MAX - 1)
+  {
+    currentTimerSetting++;
+    setSystemState(SystemState::IDLE);
+    displayTimerSettingValue();
+  }
+}
+
+void timerSettingDecrement()
+{
+  if (currentTimerSetting > TIMER_SETTING_MIN)
+  {
+    currentTimerSetting--;
+    setSystemState(SystemState::IDLE);
+    displayTimerSettingValue();
+  }
+}
+
+void startTimer()
+{
+  setTimerSetting(currentTimerSetting);
+  setSystemState(SystemState::BUSY);
+  startTimerCounting();
+}

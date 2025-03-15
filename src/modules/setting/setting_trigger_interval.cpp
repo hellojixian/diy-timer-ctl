@@ -5,8 +5,6 @@
 #include "../../libs/sleep.h"
 #include "../../libs/setting.h"
 
-#define CHAR_WIDTH 12
-
 extern ButtonCallback previousHandlers[4];
 extern ButtonCallback onOkPress;
 extern ButtonCallback onCancelPress;
@@ -33,11 +31,8 @@ void displayTriggerIntervalValue()
 
   unsigned int triggerInterval = getTriggerInterval();
   sprintf(buffer, "%03u", triggerInterval); // 格式化成3位数字，前面补零
-
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   display.setTextSize(2);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }
@@ -79,13 +74,10 @@ void displayTriggerIntervalValueOptions()
 
   char buffer[4];
   sprintf(buffer, "%03u", TRIGGER_INTERVAL_MIN + currentSettingTriggerIntervalOptionIndex); // 格式化值
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
-
   drawAdjustArrows();
   display.setTextSize(2);
   display.setTextColor(SSD1306_BLACK);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }

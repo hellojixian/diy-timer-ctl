@@ -11,7 +11,7 @@ void initDisplay();
 void drawText(int x, int y, const char *text, int size = 1);
 void drawNavBar(const char *name);
 void drawBottomMenu(int currentIndex, int totalItems);
-void drawAdjustArrows();
+void drawAdjustArrows(int y_pos = 36);
 void clearScreen();
-
+unsigned int alignCenter(const char *text, int size = 1);
 #endif

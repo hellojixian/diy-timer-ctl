@@ -5,8 +5,6 @@
 #include "../../libs/sleep.h"
 #include "../../libs/setting.h"
 
-#define CHAR_WIDTH 12
-
 extern unsigned int sleepTimeout;
 
 extern ButtonCallback previousHandlers[4];
@@ -39,10 +37,8 @@ void displaySleepTimeoutValue()
   {
     sprintf(buffer, "%03u", sleepTimeout); // 格式化成3位数字，前面补零
   }
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   display.setTextSize(2);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }
@@ -83,12 +79,10 @@ void displaySleepTimeoutValueOptions()
   {
     strcpy_P(buffer, (char *)pgm_read_ptr(&setting_sleep_timeout_options[currentSettingSleepTimeoutOptionIndex]));
   }
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   drawAdjustArrows();
   display.setTextSize(2);
   display.setTextColor(SSD1306_BLACK);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }

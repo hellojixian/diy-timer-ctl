@@ -5,8 +5,6 @@
 #include "../../libs/sleep.h"
 #include "../../libs/setting.h"
 
-#define CHAR_WIDTH 12
-
 extern ButtonCallback previousHandlers[4];
 extern ButtonCallback onOkPress;
 extern ButtonCallback onCancelPress;
@@ -30,10 +28,8 @@ void displayBuzzerValue()
 
   bool buzzerEnabled = getBuzzerState();
   sprintf(buffer, "%s", buzzerEnabled ? strcpy_P(buffer, setting_buzzer_on) : strcpy_P(buffer, setting_buzzer_off));
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   display.setTextSize(2);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }
@@ -57,12 +53,10 @@ void displayBuzzerValueOptions()
   char buffer[20];
   display.fillRect(24, 32, SCREEN_WIDTH - 24 * 2, 24, SSD1306_WHITE);
   strcpy_P(buffer, currentSettingBuzzerOptionIndex == 0 ? setting_buzzer_on : setting_buzzer_off);
-  int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   drawAdjustArrows();
   display.setTextSize(2);
   display.setTextColor(SSD1306_BLACK);
-  display.setCursor(x, 36); // **设置居中 X 坐标**
+  display.setCursor(alignCenter(buffer, 2), 36); // **设置居中 X 坐标**
   display.print(buffer);
   display.display();
 }

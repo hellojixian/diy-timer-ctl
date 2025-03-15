@@ -5,6 +5,7 @@
 #include "src/libs/memory.h"
 #include "src/libs/setting.h"
 #include "src/modules/menu/menu.h"
+#include "src/modules/timer/timer_counting.h"
 
 void setup()
 {
@@ -22,4 +23,5 @@ void loop()
 {
   handleInput();
   updateSleep();
+  updateTimer();
 }

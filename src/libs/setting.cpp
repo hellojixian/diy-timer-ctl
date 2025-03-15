@@ -21,6 +21,11 @@ void initSettings()
   {
     setTriggerInterval(DEFAULT_TRIGGER_INTERVAL);
   }
+
+  if (EEPROM.read(EEPROM_TIMER_SETTING_ADDR) == 255)
+  {
+    setTimerSetting(DEFAULT_TIMER_SETTING);
+  }
 }
 
 void setBuzzerState(bool enabled)
@@ -57,5 +62,16 @@ void setTriggerInterval(unsigned int seconds)
 unsigned int getTriggerInterval()
 {
   uint8_t storedValue = EEPROM.read(EEPROM_TRIGGER_INTERVAL_ADDR); // **从 EEPROM 读取值**
+  return storedValue;
+}
+
+void setTimerSetting(unsigned int minutes)
+{
+  EEPROM.write(EEPROM_TIMER_SETTING_ADDR, minutes);
+}
+
+unsigned int getTimerSetting()
+{
+  uint8_t storedValue = EEPROM.read(EEPROM_TIMER_SETTING_ADDR); // **从 EEPROM 读取值**
   return storedValue;
 }

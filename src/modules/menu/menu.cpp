@@ -3,7 +3,6 @@
 #include "../../libs/input.h"
 #include "../../libs/hal.h"
 #include "../../libs/sleep.h"
-#define CHAR_WIDTH 6
 
 // **当前菜单索引**
 uint8_t currentMenuIndex = 0;
@@ -33,10 +32,7 @@ void drawMenuItem()
   display.setTextColor(SSD1306_WHITE);
   char nameBuffer[20];
   strcpy_P(nameBuffer, (const char *)pgm_read_ptr((const void *)&menuItems[currentMenuIndex].name));
-  // **计算文本宽度**
-  int16_t textWidth = strlen(nameBuffer) * CHAR_WIDTH;
-  int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
-  display.setCursor(x, 46);                   // **设置居中 X 坐标**
+  display.setCursor(alignCenter(nameBuffer, 1), 46); // **设置居中 X 坐标**
   display.print(nameBuffer);
   display.display();
 }

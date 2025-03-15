@@ -12,6 +12,8 @@ void initDisplay()
       ; // 如果初始化失败，程序卡住
   }
   display.clearDisplay();
+  // display.ssd1306_command(SSD1306_SETCONTRAST);
+  // display.ssd1306_command(255);
   display.display();
 }
 
@@ -34,16 +36,16 @@ void drawNavBar(const char *name)
   display.display();
 }
 
-void drawAdjustArrows()
+void drawAdjustArrows(int y_pos = 36)
 {
   char buffer[2];
   display.setTextSize(2);
   display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 36);
+  display.setCursor(0, y_pos);
   strcpy_P(buffer, PSTR("<"));
   display.print(buffer);
   display.display();
-  display.setCursor(SCREEN_WIDTH - 12, 36);
+  display.setCursor(SCREEN_WIDTH - 12, y_pos);
   strcpy_P(buffer, PSTR(">"));
   display.print(buffer);
   display.display();
@@ -65,4 +67,11 @@ void clearScreen()
 {
   display.clearDisplay();
   display.display();
+}
+
+unsigned int alignCenter(const char *text, int size = 1)
+{
+  int char_width = 6 * size;
+  int16_t textWidth = strlen(text) * char_width;
+  return (SCREEN_WIDTH - textWidth) / 2;
 }
