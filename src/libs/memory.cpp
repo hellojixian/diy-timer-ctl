@@ -11,6 +11,7 @@ int freeMemory()
 void checkMemory()
 {
   int ram = freeMemory();
+  Serial.begin(115200);
   Serial.print(F("Free RAM: ")); // 使用 F() 宏，减少 RAM 占用
   Serial.print(ram);
   Serial.println(F(" bytes"));

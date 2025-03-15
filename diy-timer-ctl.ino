@@ -16,7 +16,7 @@ void setup()
   initDisplay();
   initMenu();
   initSleepManager();
-  checkMemory();
+  // checkMemory();
 }
 
 void loop()

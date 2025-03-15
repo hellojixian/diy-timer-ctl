@@ -25,11 +25,23 @@ void displayScreenValue()
   strcpy_P(buffer, setting_screen);
   drawText(0, 20, buffer);
 
+  // **匹配当前亮度**
+  uint8_t currentBrightness = getScreenBrightness();
+  for (uint8_t i = 0; i < setting_screen_options_count; i++)
+  {
+    uint8_t value = pgm_read_byte(&setting_screen_options[i].value);
+    if (value == currentBrightness)
+    {
+      currentSettingScreenOptionIndex = i;
+      break;
+    }
+  }
+
   // **正确读取选项名称**
   const char *optionName = (const char *)pgm_read_ptr(&setting_screen_options[currentSettingScreenOptionIndex].name);
 
   // **拷贝 PROGMEM 字符串到 RAM**
-  char nameBuffer[10];
+  char nameBuffer[20];
   strcpy_P(nameBuffer, optionName);
 
   display.setTextSize(2);
@@ -49,24 +61,12 @@ void settingScreenValue()
   bindButtonHandlers(settingScreenValueCommit, settingScreenValueReset, settingScreenValuePrev, settingScreenValueNext);
   setSystemState(SystemState::IDLE);
 
-  // **匹配当前亮度**
-  uint8_t currentBrightness = getScreenBrightness();
-  for (uint8_t i = 0; i < setting_screen_options_count; i++)
-  {
-    uint8_t value = pgm_read_byte(&setting_screen_options[i].value);
-    if (value == currentBrightness)
-    {
-      currentSettingScreenOptionIndex = i;
-      break;
-    }
-  }
-
   displayScreenValueOptions();
 }
 
 void displayScreenValueOptions()
 {
-  char buffer[20];
+  char buffer[10];
   display.fillRect(24, 32, SCREEN_WIDTH - 24 * 2, 24, SSD1306_WHITE);
 
   // **正确读取选项名称**

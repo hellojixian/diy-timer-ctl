@@ -89,7 +89,7 @@ void drawTimerCountingUIFrame()
   clearScreen();
   drawNavBar(timer_name);
   char buffer[30];
-  char tempString[20];
+  char tempString[28];
   strcpy_P(tempString, timer_counting_name); // 读取 "Counting: %d mins"
   sprintf(buffer, tempString, getTimerSetting());
   drawText(0, 16, buffer);
@@ -107,12 +107,12 @@ void drawTimerCountingUI()
   display.drawLine(0, SCREEN_HEIGHT - 1, SCREEN_WIDTH, SCREEN_HEIGHT - 1, SSD1306_WHITE);
   display.drawLine(0, SCREEN_HEIGHT - progrssHeight, SCREEN_WIDTH, SCREEN_HEIGHT - progrssHeight, SSD1306_WHITE);
   display.fillRect(0, SCREEN_HEIGHT - progrssHeight, progress, progrssHeight, SSD1306_WHITE);
-  display.display();
 
-  char buffer[20];                                                        // 存储格式化的时间
-  sprintf(buffer, "%02u:%02u", elapsedSeconds / 60, elapsedSeconds % 60); // 02u 保持两位数格式
   display.fillRect(34, 32, 60, 24, SSD1306_BLACK);
-  display.display();
+  char buffer[30];
+  char formatString[10]; // **确保足够存储 "%02u:%02u"**
+  strcpy_P(formatString, timer_second_format);
+  sprintf(buffer, formatString, elapsedSeconds / 60, elapsedSeconds % 60); // 02u 保持两位数格式
   display.setTextSize(2);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(34, 32);
@@ -132,13 +132,13 @@ void cancelTimerCounting()
 void drawOnCompletedUI()
 {
   clearScreen();
-  char buffer[30];
-  char tempString[20];
+  char buffer[40];
 
   strcpy_P(buffer, timer_counting_completed);
   drawText(60, 18, buffer);
-  strcpy_P(tempString, timer_minute_format); // 读取 "Counting: %d mins"
-  sprintf(buffer, tempString, getTimerSetting());
+  char formatString[10]; // **确保足够存储 "%02u:%02u"**
+  strcpy_P(formatString, timer_minute_format);
+  sprintf(buffer, formatString, getTimerSetting());
   drawText(60, 32, buffer, 2);
 
   // const uint8_t *icon = (const uint8_t *)pgm_read_ptr(&timer_icon); // 读取图标

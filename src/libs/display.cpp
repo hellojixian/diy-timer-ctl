@@ -12,15 +12,13 @@ void initDisplay()
     while (1)
       ; // 如果初始化失败，程序卡住
   }
-  setScreenBrightness(getScreenBrightness());
+  setDisplayScreenBrightness(getScreenBrightness());
   display.clearDisplay();
   display.display();
 }
 
 void setDisplayScreenBrightness(uint8_t brightness)
 {
-  Serial.print(F("Setting brightness to: "));
-  Serial.println(brightness);
   display.ssd1306_command(SSD1306_SETCONTRAST);
   display.ssd1306_command(brightness);
 }
