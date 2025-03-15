@@ -4,6 +4,7 @@
 #include "setting_trigger_interval.h"
 #include "setting_sleep_timeout.h"
 #include "setting_buzzer.h"
+#include "setting_screen.h"
 #include "../../libs/input.h"
 
 // **定义 Getter 方法类型**
@@ -21,6 +22,7 @@ struct SettingItem
 const SettingItem settings[] PROGMEM = {
     {setting_trigger_interval, displayTriggerIntervalValue, settingTriggerIntervalValue},
     {setting_sleep_timeout, displaySleepTimeoutValue, settingSleepTimeoutValue},
+    {setting_screen, displayScreenValue, settingScreenValue},
     {setting_buzzer, displayBuzzerValue, settingBuzzerValue}};
 
 void initSettingModule();

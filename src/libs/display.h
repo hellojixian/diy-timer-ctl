@@ -13,5 +13,6 @@ void drawNavBar(const char *name);
 void drawBottomMenu(int currentIndex, int totalItems);
 void drawAdjustArrows(int y_pos = 36);
 void clearScreen();
+void setDisplayScreenBrightness(uint8_t brightness);
 unsigned int alignCenter(const char *text, int size = 1);
 #endif

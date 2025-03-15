@@ -160,6 +160,9 @@ void triggerSignal()
 
 void timerCountingSettingIncrement()
 {
+  if (isCompleted)
+    return;
+
   unsigned int currentSetting = getTimerSetting();
   if (currentSetting < TIMER_SETTING_MAX)
   {
@@ -170,6 +173,9 @@ void timerCountingSettingIncrement()
 }
 void timerCountingSettingDecrement()
 {
+  if (isCompleted)
+    return;
+
   unsigned int currentSetting = getTimerSetting();
   unsigned int elapsedSeconds = currentSetting * 60 - timerCountSeconds;
   if (currentSetting > TIMER_SETTING_MIN && (currentSetting - 1 > elapsedSeconds / 60))

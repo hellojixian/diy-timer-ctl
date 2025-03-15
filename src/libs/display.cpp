@@ -1,4 +1,5 @@
 #include "display.h"
+#include "setting.h"
 #include "hal.h"
 
 // 创建 `Adafruit_SSD1306` 对象
@@ -11,10 +12,17 @@ void initDisplay()
     while (1)
       ; // 如果初始化失败，程序卡住
   }
+  setScreenBrightness(getScreenBrightness());
   display.clearDisplay();
-  // display.ssd1306_command(SSD1306_SETCONTRAST);
-  // display.ssd1306_command(255);
   display.display();
+}
+
+void setDisplayScreenBrightness(uint8_t brightness)
+{
+  Serial.print(F("Setting brightness to: "));
+  Serial.println(brightness);
+  display.ssd1306_command(SSD1306_SETCONTRAST);
+  display.ssd1306_command(brightness);
 }
 
 void drawText(int x, int y, const char *text, int size = 1)

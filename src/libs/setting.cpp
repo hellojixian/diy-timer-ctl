@@ -26,6 +26,11 @@ void initSettings()
   {
     setTimerSetting(DEFAULT_TIMER_SETTING);
   }
+
+  if (EEPROM.read(EEPROM_SCREEN_BRIGHTNESS_ADDR) == 255)
+  {
+    setScreenBrightness(DEFAULT_SCREEN_BRIGHTNESS);
+  }
 }
 
 void setBuzzerState(bool enabled)
@@ -73,5 +78,16 @@ void setTimerSetting(unsigned int minutes)
 unsigned int getTimerSetting()
 {
   uint8_t storedValue = EEPROM.read(EEPROM_TIMER_SETTING_ADDR); // **从 EEPROM 读取值**
+  return storedValue;
+}
+
+void setScreenBrightness(unsigned int brightness)
+{
+  EEPROM.write(EEPROM_SCREEN_BRIGHTNESS_ADDR, brightness);
+}
+
+unsigned int getScreenBrightness()
+{
+  uint8_t storedValue = EEPROM.read(EEPROM_SCREEN_BRIGHTNESS_ADDR); // **从 EEPROM 读取值**
   return storedValue;
 }
