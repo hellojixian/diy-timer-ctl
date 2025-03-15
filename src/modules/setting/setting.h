@@ -4,6 +4,7 @@
 #include "setting_trigger_interval.h"
 #include "setting_sleep_timeout.h"
 #include "setting_buzzer.h"
+#include "../../libs/input.h"
 
 // **定义 Getter 方法类型**
 typedef void (*DisplayValueFunc)(); // **用于显示当前值**
@@ -23,5 +24,5 @@ const SettingItem settings[] PROGMEM = {
     {setting_buzzer, displayBuzzerValue, settingBuzzerValue}};
 
 void initSettingModule();
-
+void drawSettingUI();
 #endif // MENU_SETTING_H

@@ -5,6 +5,24 @@
 
 extern unsigned int sleepTimeout;
 
+void initSettings()
+{
+  if (EEPROM.read(EEPROM_BUZZER_ADDR) == 255)
+  {
+    setBuzzerState(DEFAULT_BUZZER_STATE);
+  }
+
+  if (EEPROM.read(EEPROM_SLEEP_ADDR) == 255)
+  {
+    setSleepTimeout(DEFAULT_SLEEP_TIMEOUT);
+  }
+
+  if (EEPROM.read(EEPROM_TRIGGER_INTERVAL_ADDR) == 255)
+  {
+    setTriggerInterval(DEFAULT_TRIGGER_INTERVAL);
+  }
+}
+
 void setBuzzerState(bool enabled)
 {
   EEPROM.write(EEPROM_BUZZER_ADDR, enabled ? 1 : 0);

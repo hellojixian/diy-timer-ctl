@@ -34,6 +34,21 @@ void drawNavBar(const char *name)
   display.display();
 }
 
+void drawAdjustArrows()
+{
+  char buffer[2];
+  display.setTextSize(2);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 36);
+  strcpy_P(buffer, PSTR("<"));
+  display.print(buffer);
+  display.display();
+  display.setCursor(SCREEN_WIDTH - 12, 36);
+  strcpy_P(buffer, PSTR(">"));
+  display.print(buffer);
+  display.display();
+}
+
 void drawBottomMenu(int currentIndex, int totalItems)
 {
   int menu_width = SCREEN_WIDTH / totalItems;

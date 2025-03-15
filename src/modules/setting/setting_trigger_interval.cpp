@@ -1,4 +1,5 @@
 #include "setting_trigger_interval.h"
+#include "setting.h"
 #include "../../libs/display.h"
 #include "../../libs/input.h"
 #include "../../libs/sleep.h"

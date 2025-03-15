@@ -1,4 +1,5 @@
 #include "setting_sleep_timeout.h"
+#include "setting.h"
 #include "../../libs/display.h"
 #include "../../libs/input.h"
 #include "../../libs/sleep.h"

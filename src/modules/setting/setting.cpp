@@ -9,6 +9,8 @@
 const uint8_t settingsCount = sizeof(settings) / sizeof(SettingItem);
 uint8_t currentSettingIndex = 0;
 
+ButtonCallback previousHandlers[4] = {nullptr, nullptr, nullptr, nullptr};
+
 void goSetting();
 void prevSettingOption();
 void nextSettingOption();
@@ -27,23 +29,27 @@ void drawSettingUI()
   drawNavBar(setting_name);
   drawBottomMenu(currentSettingIndex, settingsCount);
   DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].displayValue);
-  action();
+  if (action != nullptr)
+    action();
 }
 
 void goSetting()
 {
-  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].displayValue);
-  action();
+  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].settingValue);
+  if (action != nullptr)
+    action();
 }
 
 void prevSettingOption()
 {
+  setSystemState(SystemState::IDLE);
   currentSettingIndex = (currentSettingIndex + settingsCount - 1) % settingsCount;
   drawSettingUI();
 }
 
 void nextSettingOption()
 {
+  setSystemState(SystemState::IDLE);
   currentSettingIndex = (currentSettingIndex + 1) % settingsCount;
   drawSettingUI();
 }

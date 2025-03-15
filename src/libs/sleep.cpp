@@ -74,7 +74,7 @@ void updateSleep()
     clearScreen();
     display.ssd1306_command(SSD1306_DISPLAYON);
     lastIdleTime = millis();
-    drawMenu();
+    initMenu();
   }
   else
   {
