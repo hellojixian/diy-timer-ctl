@@ -11,19 +11,17 @@
 typedef void (*DisplayValueFunc)(); // **用于显示当前值**
 typedef void (*SettingValueFunc)(); // **用于修改设置值**
 
-// **定义 SettingItem 结构体**
-struct SettingItem
+struct SettingAction
 {
-  const char *name;              // **设置项名称（存储在 PROGMEM）**
   DisplayValueFunc displayValue; // **显示当前值函数**
   SettingValueFunc settingValue; // **设置值函数**
 };
 
-const SettingItem settings[] PROGMEM = {
-    {setting_trigger_interval, displayTriggerIntervalValue, settingTriggerIntervalValue},
-    {setting_sleep_timeout, displaySleepTimeoutValue, settingSleepTimeoutValue},
-    {setting_screen, displayScreenValue, settingScreenValue},
-    {setting_buzzer, displayBuzzerValue, settingBuzzerValue}};
+const SettingAction settingActions[] = {
+    {displayTriggerIntervalValue, settingTriggerIntervalValue},
+    {displaySleepTimeoutValue, settingSleepTimeoutValue},
+    {displayScreenValue, settingScreenValue},
+    {displayBuzzerValue, settingBuzzerValue}};
 
 void initSettingModule();
 void drawSettingUI();

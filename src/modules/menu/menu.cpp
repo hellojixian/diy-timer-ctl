@@ -3,9 +3,10 @@
 #include "../../libs/input.h"
 #include "../../libs/hal.h"
 #include "../../libs/sleep.h"
+#include "../../libs/setting.h"
 
 // **当前菜单索引**
-uint8_t currentMenuIndex = 0;
+uint8_t currentMenuIndex = getLastSelectedMenuIndex();
 
 extern Adafruit_SSD1306 display;
 
@@ -48,6 +49,7 @@ void menuLeftHandler()
 {
   setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + menuCount - 1) % menuCount; // **循环到上一个菜单**
+  setLastSelectedMenuIndex(currentMenuIndex);
   drawMenu();
 }
 
@@ -55,12 +57,13 @@ void menuRightHandler()
 {
   setSystemState(SystemState::IDLE);
   currentMenuIndex = (currentMenuIndex + 1) % menuCount; // **循环到下一个菜单**
+  setLastSelectedMenuIndex(currentMenuIndex);
   drawMenu();
 }
 
 void menuOKHandler()
 {
-  MenuFunction action = (MenuFunction)pgm_read_ptr(&menuItems[currentMenuIndex].action);
+  MenuFunction action = menuActions[currentMenuIndex];
   action();
 }
 

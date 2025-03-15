@@ -6,6 +6,7 @@
 #include "../../libs/input.h"
 #include "../../libs/buzzer.h"
 #include "../../libs/setting.h"
+#include "../../libs/memory.h"
 #include "../menu/menu.h"
 
 extern ButtonCallback previousHandlers[4];
@@ -25,6 +26,8 @@ void timerCountingSettingDecrement();
 
 volatile bool isCompleted = false;
 volatile bool isCounting = false;
+volatile unsigned int totalSeconds = 0;
+volatile unsigned int elapsedSeconds = 0;
 volatile unsigned int timerCountSeconds = 0;
 volatile unsigned int timerTriggerInterval = 0;
 
@@ -38,12 +41,14 @@ void startTimerCounting()
   bindButtonHandlers(nullptr, cancelTimerCounting, timerCountingSettingDecrement, timerCountingSettingIncrement);
   setSystemState(SystemState::BUSY);
 
+  totalSeconds = getTimerSetting() * 60; // 获取总计时秒数
   timerCountSeconds = getTimerSetting() * 60;
   timerTriggerInterval = getTriggerInterval();
   isCounting = true;
 
   triggerSignal();
   drawTimerCountingUIFrame();
+  checkMemory();
 }
 
 void updateTimer()
@@ -88,35 +93,37 @@ void drawTimerCountingUIFrame()
 {
   clearScreen();
   drawNavBar(timer_name);
-  char buffer[30];
-  char tempString[28];
+  char buffer[40];
+  char tempString[38];
   strcpy_P(tempString, timer_counting_name); // 读取 "Counting: %d mins"
   sprintf(buffer, tempString, getTimerSetting());
   drawText(0, 16, buffer);
+  unsigned int progrssHeight = 5;
+  display.drawLine(0, SCREEN_HEIGHT - 1, SCREEN_WIDTH, SCREEN_HEIGHT - 1, SSD1306_WHITE);
+  display.drawLine(0, SCREEN_HEIGHT - progrssHeight, SCREEN_WIDTH, SCREEN_HEIGHT - progrssHeight, SSD1306_WHITE);
   display.display();
 }
 
 void drawTimerCountingUI()
 {
-  unsigned int totalSeconds = getTimerSetting() * 60;             // 获取总计时秒数
-  unsigned int elapsedSeconds = totalSeconds - timerCountSeconds; // 计算已过去时间
+  elapsedSeconds = totalSeconds - timerCountSeconds; // 计算已过去时间
 
   // 进度条更新（基于已用时间，而不是剩余时间）
   unsigned int progress = map(elapsedSeconds, 0, totalSeconds, 0, SCREEN_WIDTH);
   unsigned int progrssHeight = 5;
-  display.drawLine(0, SCREEN_HEIGHT - 1, SCREEN_WIDTH, SCREEN_HEIGHT - 1, SSD1306_WHITE);
-  display.drawLine(0, SCREEN_HEIGHT - progrssHeight, SCREEN_WIDTH, SCREEN_HEIGHT - progrssHeight, SSD1306_WHITE);
   display.fillRect(0, SCREEN_HEIGHT - progrssHeight, progress, progrssHeight, SSD1306_WHITE);
 
   display.fillRect(34, 32, 60, 24, SSD1306_BLACK);
-  char buffer[30];
-  char formatString[10]; // **确保足够存储 "%02u:%02u"**
+  char buffer[40];
+  char formatString[40]; // **确保足够存储 "%02u:%02u"**
   strcpy_P(formatString, timer_second_format);
   sprintf(buffer, formatString, elapsedSeconds / 60, elapsedSeconds % 60); // 02u 保持两位数格式
+
   display.setTextSize(2);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(34, 32);
   display.print(buffer);
+
   display.display();
 }
 
@@ -168,6 +175,7 @@ void timerCountingSettingIncrement()
   {
     setTimerSetting(currentSetting + 1);
     timerCountSeconds += 60;
+    totalSeconds = getTimerSetting() * 60; // 获取总计时秒数
     drawTimerCountingUIFrame();
   }
 }
@@ -182,6 +190,7 @@ void timerCountingSettingDecrement()
   {
     setTimerSetting(currentSetting - 1);
     timerCountSeconds -= 60;
+    totalSeconds = getTimerSetting() * 60; // 获取总计时秒数
     drawTimerCountingUIFrame();
   }
 }

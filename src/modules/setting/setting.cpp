@@ -4,9 +4,10 @@
 #include "../../libs/input.h"
 #include "../../libs/sleep.h"
 #include "../../libs/setting.h"
+#include "../../libs/memory.h"
 #include "../menu/menu.h"
 
-const uint8_t settingsCount = sizeof(settings) / sizeof(SettingItem);
+const uint8_t settingsCount = sizeof(settingActions) / sizeof(SettingAction);
 uint8_t currentSettingIndex = 0;
 
 ButtonCallback previousHandlers[4] = {nullptr, nullptr, nullptr, nullptr};
@@ -18,7 +19,7 @@ void drawSettingUI();
 
 void initSettingModule()
 {
-  bindButtonHandlers(goSetting, &initMenu, prevSettingOption, nextSettingOption);
+  bindButtonHandlers(goSetting, &resetSystem, prevSettingOption, nextSettingOption);
   drawSettingUI();
   setSystemState(SystemState::IDLE);
 }
@@ -28,14 +29,15 @@ void drawSettingUI()
   clearScreen();
   drawNavBar(setting_name);
   drawBottomMenu(currentSettingIndex, settingsCount);
-  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].displayValue);
+
+  DisplayValueFunc action = settingActions[currentSettingIndex].displayValue;
   if (action != nullptr)
     action();
 }
 
 void goSetting()
 {
-  DisplayValueFunc action = (DisplayValueFunc)pgm_read_ptr(&settings[currentSettingIndex].settingValue);
+  DisplayValueFunc action = settingActions[currentSettingIndex].settingValue;
   if (action != nullptr)
     action();
 }

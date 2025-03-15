@@ -4,6 +4,7 @@
 #include "../../libs/sleep.h"
 #include "../../libs/input.h"
 #include "../../libs/setting.h"
+#include "../../libs/memory.h"
 #include "../menu/menu.h"
 
 void startTimer();
@@ -16,7 +17,7 @@ unsigned int currentTimerSetting = 0;
 
 void initTimerModule()
 {
-  bindButtonHandlers(&startTimer, &initMenu, &timerSettingDecrement, &timerSettingIncrement);
+  bindButtonHandlers(&startTimer, &resetSystem, &timerSettingDecrement, &timerSettingIncrement);
   currentTimerSetting = getTimerSetting();
   drawTimerUI();
   setSystemState(SystemState::IDLE);

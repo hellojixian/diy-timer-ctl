@@ -14,7 +14,6 @@ struct MenuItem
 {
     const char *name;    // **菜单名称（存入 PROGMEM）**
     const uint8_t *icon; // **图标数据（存入 PROGMEM）**
-    MenuFunction action; // **菜单入口函数**
 };
 
 const char timer_name[] PROGMEM = "Timer";
@@ -66,8 +65,11 @@ const uint8_t setting_icon[] PROGMEM = {
     0xff, 0x80, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00};
 
 const MenuItem menuItems[] PROGMEM = {
-    {timer_name, timer_icon, initTimerModule},
-    {setting_name, setting_icon, initSettingModule},
-    {info_name, info_icon, initInfoModule}};
+    {timer_name, timer_icon},
+    {setting_name, setting_icon},
+    {info_name, info_icon}};
+
+const MenuFunction menuActions[] = {
+    initTimerModule, initSettingModule, initInfoModule};
 
 #endif

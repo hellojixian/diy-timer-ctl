@@ -2,6 +2,7 @@
 #include "../../libs/display.h"
 #include "../../libs/sleep.h"
 #include "../../libs/input.h"
+#include "../../libs/memory.h"
 #include "../menu/menu.h"
 
 #include <avr/pgmspace.h>
@@ -17,7 +18,7 @@ const char info_release[] PROGMEM = " Release: Mar, 2025";
 
 void initInfoModule()
 {
-  bindButtonHandlers(&initMenu, &initMenu, nullptr, nullptr);
+  bindButtonHandlers(&resetSystem, &resetSystem, nullptr, nullptr);
   drawInfoUI();
   setSystemState(SystemState::IDLE);
 }

@@ -31,6 +31,11 @@ void initSettings()
   {
     setScreenBrightness(DEFAULT_SCREEN_BRIGHTNESS);
   }
+
+  if (EEPROM.read(EEPROM_LAST_SELECTED_MENU_IDX_ADDR) == 255)
+  {
+    setLastSelectedMenuIndex(DEFAULT_LAST_SELECTED_MENU_IDX);
+  }
 }
 
 void setBuzzerState(bool enabled)
@@ -89,5 +94,16 @@ void setScreenBrightness(unsigned int brightness)
 unsigned int getScreenBrightness()
 {
   uint8_t storedValue = EEPROM.read(EEPROM_SCREEN_BRIGHTNESS_ADDR); // **从 EEPROM 读取值**
+  return storedValue;
+}
+
+void setLastSelectedMenuIndex(unsigned int index)
+{
+  EEPROM.write(EEPROM_LAST_SELECTED_MENU_IDX_ADDR, index);
+}
+
+unsigned int getLastSelectedMenuIndex()
+{
+  uint8_t storedValue = EEPROM.read(EEPROM_LAST_SELECTED_MENU_IDX_ADDR); // **从 EEPROM 读取值**
   return storedValue;
 }

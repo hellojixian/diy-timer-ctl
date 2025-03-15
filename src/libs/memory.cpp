@@ -1,5 +1,7 @@
 #include "memory.h"
 #include <Arduino.h>
+#include <avr/wdt.h>
+#include <avr/io.h>
 
 int freeMemory()
 {
@@ -15,4 +17,12 @@ void checkMemory()
   Serial.print(F("Free RAM: ")); // 使用 F() 宏，减少 RAM 占用
   Serial.print(ram);
   Serial.println(F(" bytes"));
+}
+
+void resetSystem()
+{
+  cli();                 // 关闭全局中断
+  wdt_enable(WDTO_15MS); // 启动看门狗，15ms 后复位
+  while (1)
+    ; // 等待复位
 }
