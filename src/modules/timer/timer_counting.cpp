@@ -20,6 +20,8 @@ void drawOnCompletedUI();
 void cancelTimerCounting();
 void onTimerCountingCompleted();
 void triggerSignal();
+void timerCountingSettingIncrement();
+void timerCountingSettingDecrement();
 
 volatile bool isCompleted = false;
 volatile bool isCounting = false;
@@ -33,7 +35,7 @@ void startTimerCounting()
   previousHandlers[2] = onLeftPress;
   previousHandlers[3] = onRightPress;
 
-  bindButtonHandlers(nullptr, cancelTimerCounting, nullptr, nullptr);
+  bindButtonHandlers(nullptr, cancelTimerCounting, timerCountingSettingDecrement, timerCountingSettingIncrement);
   setSystemState(SystemState::BUSY);
 
   timerCountSeconds = getTimerSetting() * 60;
@@ -154,4 +156,26 @@ void triggerSignal()
   digitalWrite(CTL_OUTPUT_PIN, LOW);
   playTriggerTone();
   digitalWrite(CTL_OUTPUT_PIN, HIGH);
+}
+
+void timerCountingSettingIncrement()
+{
+  unsigned int currentSetting = getTimerSetting();
+  if (currentSetting < TIMER_SETTING_MAX)
+  {
+    setTimerSetting(currentSetting + 1);
+    timerCountSeconds += 60;
+    drawTimerCountingUIFrame();
+  }
+}
+void timerCountingSettingDecrement()
+{
+  unsigned int currentSetting = getTimerSetting();
+  unsigned int elapsedSeconds = currentSetting * 60 - timerCountSeconds;
+  if (currentSetting > TIMER_SETTING_MIN && (currentSetting - 1 > elapsedSeconds / 60))
+  {
+    setTimerSetting(currentSetting - 1);
+    timerCountSeconds -= 60;
+    drawTimerCountingUIFrame();
+  }
 }
