@@ -20,7 +20,7 @@ void settingBuzzerValueNext();
 void displayBuzzerValueOptions();
 
 const uint8_t settingBuzzerOptionsCount = sizeof(setting_buzzer_options);
-uint8_t currentSettingOptionIndex = 0;
+uint8_t currentSettingBuzzerOptionIndex = 0;
 
 void displayBuzzerValue()
 {
@@ -48,7 +48,7 @@ void settingBuzzerValue()
   bindButtonHandlers(settingBuzzerValueCommit, settingBuzzerValueReset, settingBuzzerValuePrev, settingBuzzerValueNext);
   setSystemState(SystemState::IDLE);
 
-  currentSettingOptionIndex = getBuzzerState() ? 0 : 1;
+  currentSettingBuzzerOptionIndex = getBuzzerState() ? 0 : 1;
   displayBuzzerValueOptions();
 }
 
@@ -56,7 +56,7 @@ void displayBuzzerValueOptions()
 {
   char buffer[20];
   display.fillRect(24, 32, SCREEN_WIDTH - 24 * 2, 24, SSD1306_WHITE);
-  strcpy_P(buffer, currentSettingOptionIndex == 0 ? setting_buzzer_on : setting_buzzer_off);
+  strcpy_P(buffer, currentSettingBuzzerOptionIndex == 0 ? setting_buzzer_on : setting_buzzer_off);
   int16_t textWidth = strlen(buffer) * CHAR_WIDTH;
   int16_t x = (SCREEN_WIDTH - textWidth) / 2; // **居中对齐 X 坐标**
   drawAdjustArrows();
@@ -69,14 +69,14 @@ void displayBuzzerValueOptions()
 
 void settingBuzzerValueNext()
 {
-  currentSettingOptionIndex = (currentSettingOptionIndex + 1) % settingBuzzerOptionsCount;
+  currentSettingBuzzerOptionIndex = (currentSettingBuzzerOptionIndex + 1) % settingBuzzerOptionsCount;
   setSystemState(SystemState::IDLE);
   displayBuzzerValueOptions();
 }
 
 void settingBuzzerValuePrev()
 {
-  currentSettingOptionIndex = (currentSettingOptionIndex + settingBuzzerOptionsCount - 1) % settingBuzzerOptionsCount;
+  currentSettingBuzzerOptionIndex = (currentSettingBuzzerOptionIndex + settingBuzzerOptionsCount - 1) % settingBuzzerOptionsCount;
   setSystemState(SystemState::IDLE);
   displayBuzzerValueOptions();
 }
@@ -92,7 +92,7 @@ void settingBuzzerValueReset()
 void settingBuzzerValueCommit()
 {
   setSystemState(SystemState::IDLE);
-  bool buzzerEnabled = currentSettingOptionIndex == 0;
+  bool buzzerEnabled = currentSettingBuzzerOptionIndex == 0;
   setBuzzerState(buzzerEnabled);
   settingBuzzerValueReset();
 }
